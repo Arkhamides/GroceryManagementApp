@@ -31,7 +31,7 @@ public class ListDataActivity extends AppCompatActivity {
     // Gets Items  data from local database and populates ListView.
     private void populateListView() {
         Log.d(TAG, "populateListView: Displaying data in the ListView");
-
+             //
         //get the data and append the list
         Cursor data = mDatabaseHelper.getItems();
         ArrayList<String> listData = new ArrayList<>();
