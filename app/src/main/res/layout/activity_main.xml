@@ -64,13 +64,35 @@
     android:orientation="horizontal"
     >
 
-    <TextView
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Price" />
+
+           <EditText
+               android:id="@+id/i_txt_Price"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:inputType="number"
+               android:minWidth="200dp">
+
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price" />
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calories" />
 
         <EditText
-            android:id="@+id/i_txt_Price"
+            android:id="@+id/i_txt_Calories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -78,7 +100,7 @@
 
         </EditText>
 
-</LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -200,7 +222,6 @@
 
 
         </TableLayout>
-
 
 
     </LinearLayout>

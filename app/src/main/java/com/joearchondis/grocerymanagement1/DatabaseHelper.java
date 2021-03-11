@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // Table Names
     private static final String TABLE_ITEMS = "items";
     private static final String TABLE_BRANDS = "brands";
-    private static final String TABLE_ITEM_VALUES = "item_values";
+    private static final String TABLE_INVENTORY = "inventory";
 
     // items Table Columns
     private static final String KEY_ITEMS_ID = "id";
@@ -27,15 +27,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String KEY_BRANDS_ID = "id";
     private static final String KEY_BRANDS_NAME = "item_name";
 
-    // item_values Table Columns
+    // inventory Table Columns
     private static final String KEY_ITEM_VALUES_ID = "id";
     private static final String KEY_ITEM_VALUES_ITEM_ID = "item_id";
     private static final String KEY_ITEM_VALUES_MEASUREMENT = ""; // kg, ml, L, packs.
     private static final String KEY_ITEM_VALUES_CALORIES = "calories";
     private static final String KEY_ITEM_VALUES_PRICE = "price";
 
-    // people_table Table Columns
-    private static final String TABLE_NAME = "people_table";
+    // this is for testing purposes Table Columns
+    private static final String TABLE_NAME = "test_table";
     private static final String COL1 = "ID";
     private static final String COL2 = "Name";
 
@@ -168,7 +168,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public Cursor getItems() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_ITEMS + " JOIN " + TABLE_BRANDS;
+        String query = "SELECT * FROM " + TABLE_ITEMS ;
+                //+ " JOIN " + TABLE_BRANDS +
+                //" ON " + TABLE_ITEMS + "." + KEY_ITEMS_BRAND_ID + "=" + TABLE_BRANDS + "." + KEY_BRANDS_ID ;
         Cursor data = db.rawQuery(query,null);
         return data;
     }

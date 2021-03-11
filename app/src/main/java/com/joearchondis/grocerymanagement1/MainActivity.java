@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         ed2 = findViewById(R.id.i_txt_Price);
         ed3 = findViewById(R.id.i_txt_Quantity);
         ed4 = findViewById(R.id.txt_Subtotal);
+        ed6 = findViewById(R.id.i_txt_Calories);
 
         b1 = findViewById(R.id.btn_add);
         btnView = findViewById(R.id.btn_ViewData);
@@ -175,11 +176,13 @@ public class MainActivity extends AppCompatActivity {
         row.addView(t4);
         table.addView(row);
 
-        ed4.setText(String.valueOf(subTotal));
+
         ed1.setText("");
         ed2.setText("");
         ed3.setText("");
+        ed4.setText(String.valueOf(subTotal));
         ed5.setText("");
+        ed6.setText("");
         ed1.requestFocus();
 
     }
