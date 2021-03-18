@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TableLayout table;
 
-    EditText ed1,ed2,ed3,ed4,ed5,ed6;
+    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_Subtotal,ed_txt_BrandName,ed_txt_Calories;
     Button b1, btnView;
 
     @Override
@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newEntry = ed1.getText().toString();
-                if(ed1.length() > 0) {
+                String newEntry = ed_txt_ProductName.getText().toString();
+                if(ed_txt_ProductName.length() > 0) {
                     addItem();
                 } else {
                     String s = mDatabaseHelper.getItemID("asdafsf");
@@ -68,14 +68,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /////////////FUNCTIONS//////////////
-    public void AddData(String newEntry) {
-        boolean insertData = mDatabaseHelper.addData(newEntry);
-        if(insertData) {
-            toastMessage("Data Successfully Inserted");
-        } else {
-            toastMessage("Error");
-        }
-    }
 
 
     /**
@@ -87,16 +79,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Sets EditText ed1, ed2, ed3, ed4
+     * Sets EditText ed_txt_ProductName, ed_txt_Price, ed_txt_Quantity, ed_txt_Subtotal
      * Sets Button b1, btnView
      */
     public void findViews() {
-        ed1 = findViewById(R.id.i_txt_ProductName);
-        ed5 = findViewById(R.id.i_txt_BrandName);
-        ed2 = findViewById(R.id.i_txt_Price);
-        ed3 = findViewById(R.id.i_txt_Quantity);
-        ed4 = findViewById(R.id.txt_Subtotal);
-        ed6 = findViewById(R.id.i_txt_Calories);
+        ed_txt_ProductName = findViewById(R.id.i_txt_ProductName);
+        ed_txt_BrandName = findViewById(R.id.i_txt_BrandName);
+        ed_txt_Price = findViewById(R.id.i_txt_Price);
+        ed_txt_Quantity = findViewById(R.id.i_txt_Quantity);
+        ed_txt_Subtotal = findViewById(R.id.txt_Subtotal);
+        ed_txt_Calories = findViewById(R.id.i_txt_Calories);
 
         b1 = findViewById(R.id.btn_add);
         btnView = findViewById(R.id.btn_ViewData);
@@ -112,12 +104,12 @@ public class MainActivity extends AppCompatActivity {
         String prodName;
         String brandName;
 
-        price = Integer.parseInt(ed2.getText().toString());
-        quantity = Integer.parseInt(ed3.getText().toString());
+        price = Integer.parseInt(ed_txt_Price.getText().toString());
+        quantity = Integer.parseInt(ed_txt_Quantity.getText().toString());
         subTotal = price * quantity;
 
-        prodName = ed1.getText().toString();
-        brandName = ed5.getText().toString();
+        prodName = ed_txt_ProductName.getText().toString();
+        brandName = ed_txt_BrandName.getText().toString();
 
         data_prodName.add(prodName);
         data_brandName.add(brandName);
@@ -176,14 +168,13 @@ public class MainActivity extends AppCompatActivity {
         row.addView(t4);
         table.addView(row);
 
-
-        ed1.setText("");
-        ed2.setText("");
-        ed3.setText("");
-        ed4.setText(String.valueOf(subTotal));
-        ed5.setText("");
-        ed6.setText("");
-        ed1.requestFocus();
+        ed_txt_ProductName.setText("");
+        ed_txt_Price.setText("");
+        ed_txt_Quantity.setText("");
+        ed_txt_Subtotal.setText(String.valueOf(subTotal));
+        ed_txt_BrandName.setText("");
+        ed_txt_Calories.setText("");
+        ed_txt_ProductName.requestFocus();
 
     }
 
