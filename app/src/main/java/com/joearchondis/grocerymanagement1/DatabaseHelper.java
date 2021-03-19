@@ -28,14 +28,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String KEY_BRANDS_ID = "id";
     private static final String KEY_BRANDS_NAME = "brand_name";
 
-    // inventory Table Columns
-    private static final String KEY_INVENTORY_ID = "id"; //primary key
-    private static final String KEY_INVENTORY_ITEM_ID = "item_id"; //primary key
+    //inventory Table Columns
+    private static final String KEY_INVENTORY_ID = "id";
+    private static final String KEY_INVENTORY_NAME = "inventory_name";
+
+    // inventory_items Table Columns
+    private static final String KEY_INVENTORY_ITEM_ID = "id"; //PK
+    private static final String KEY_INVENTORY_ITEM_ITEM_ID = "item_id"; //unique FK
+    private static final String KEY_INVENTORY_ITEM_INVENTORY_ID = "inventory_id"; //unique FK
     private static final String KEY_INVENTORY_ITEM_QUANTITY = "quantity";
+
     private static final String KEY_INVENTORY_ITEM_MEASUREMENT = "measurement_label"; // kg, ml, L, packs.
     private static final String KEY_INVENTORY_ITEM_CALORIES = "calories";
     private static final String KEY_INVENTORY_ITEM_PRICE = "price";
-
     private static final String KEY_INVENTORY_ITEM_MINIMUM_QTY = "minimum_quantity";
 
     // transaction_history Columns
@@ -65,9 +70,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 ")";
         String CREATE_INVENTORY_TABLE = "CREATE TABLE " + TABLE_INVENTORY +
                 "(" +
-                    KEY_INVENTORY_ID + " INTEGER PRIMARY KEY," + // primary key
-                    KEY_INVENTORY_ITEM_ID + " INTEGER REFERENCES " + TABLE_ITEMS + "(" + KEY_ITEMS_ID + ")," + //PK FK
+                    KEY_INVENTORY_ITEM_ID + " INTEGER PRIMARY KEY," + // primary key
+                    KEY_INVENTORY_ITEM_ITEM_ID + " INTEGER REFERENCES " + TABLE_ITEMS + "(" + KEY_ITEMS_ID + ")," + //unique FK
+                    KEY_INVENTORY_ITEM_INVENTORY_ID + " INTEGER REFERENCES " + TABLE_INVENTORY + "(" + KEY_INVENTORY_ID + ")," + //unique FK
                     KEY_INVENTORY_ITEM_QUANTITY + " INTEGER," +
+
                     KEY_INVENTORY_ITEM_MEASUREMENT + " TEXT," + // kg, ml, L, packs.
                     KEY_INVENTORY_ITEM_PRICE + " INTEGER," +
                     KEY_INVENTORY_ITEM_CALORIES + " INTEGER," +
@@ -86,7 +93,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY);
         onCreate(db);
     }
-
 
     /*************************   ADD FUNCTIONS    **********************************/
 
@@ -154,6 +160,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
+    public boolean addInventory(String inventoryName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KEY_INVENTORY_NAME, inventoryName);
+        Log.d(TAG, "addData: Adding " + inventoryName + " to " + KEY_INVENTORY_NAME);
+
+        long result = db.insert(TABLE_INVENTORY, null, contentValues);
+
+        //if data is inserted incorrectly it will return -1
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public boolean addInventoryItem(String itemName,
                                     String brandName,
                                     String measurementLabel,
@@ -174,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
         itemID = getItemID(itemName);
 
-        contentValues.put(KEY_INVENTORY_ITEM_ID, itemID);
+        contentValues.put(KEY_INVENTORY_ITEM_ITEM_ID, itemID);
         contentValues.put(KEY_INVENTORY_ITEM_MEASUREMENT, measurementLabel);
         contentValues.put(KEY_INVENTORY_ITEM_CALORIES, calories);
         contentValues.put(KEY_INVENTORY_ITEM_PRICE, price);
@@ -190,8 +213,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    public boolean addInventoryItem(String itemName, String brandName, String quantity) {
+    public boolean addInventoryItem(String itemName, String inventoryName, String brandName, String quantity) {
         String itemID;
+        String inventoryID;
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -237,13 +261,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public Cursor getInventory() {
+
+        // fk Item id
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_INVENTORY ;
+        String query = "SELECT * FROM " + TABLE_INVENTORY +
+                " JOIN " + TABLE_ITEMS;
         Cursor data = db.rawQuery(query,null);
         return data;
     }
-
-
 
     /**
      * Returns only the ID that matches the name passed in. Returns -1 if not available

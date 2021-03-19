@@ -6,27 +6,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class ListDataActivity extends AppCompatActivity {
+public class ListItemsActivity extends AppCompatActivity {
 
     private static final String TAG = "ListDataActivity";
 
     DatabaseHelper mDatabaseHelper;
 
     ListView mListView;
-    ArrayList<Item> ItemsList = new ArrayList<Item>();
+    ArrayList<Item> ItemsList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_layout);
 
-        Log.d(TAG, "onCreate: Started");
         mListView =(ListView)findViewById(R.id.ListView_Items);
         mDatabaseHelper = new DatabaseHelper(this);
 
@@ -38,16 +40,27 @@ public class ListDataActivity extends AppCompatActivity {
         Log.d(TAG, "populateListView: Displaying data in the ListView");
 
         //get the data and append the list
+        List<HashMap<String,String>> aList = new ArrayList<HashMap<String, String>>();
         Cursor data = mDatabaseHelper.getItems();
         while(data.moveToNext()) {
             Item i1 = new Item(data.getString(2),data.getString(4));
             ItemsList.add(i1);
+
+            HashMap<String, String> hm = new HashMap<String,String>();
+            hm.put("ListName",i1.name);
+            hm.put("ListBrand",  i1.brand);
+            aList.add(hm);
         }
 
-        ItemsListAdapter adapter = new ItemsListAdapter(this, R.layout.adapter_view_layout, ItemsList);
-        mListView.setAdapter(adapter);
+        String[] from = {
+                "ListName","ListBrand"
+        };
+        int[] to = {
+                R.id.TextView1,   R.id.TextView2
+        };
 
-
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.adapter_view_layout,from,to);
+        mListView.setAdapter(simpleAdapter);
 
         //perform listView item click event
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
