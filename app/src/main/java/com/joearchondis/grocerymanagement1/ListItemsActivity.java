@@ -49,14 +49,15 @@ public class ListItemsActivity extends AppCompatActivity {
             HashMap<String, String> hm = new HashMap<String,String>();
             hm.put("ListName",i1.name);
             hm.put("ListBrand",  i1.brand);
+            hm.put("Description", "");
             aList.add(hm);
         }
 
         String[] from = {
-                "ListName","ListBrand"
+                "ListName","ListBrand", "Description"
         };
         int[] to = {
-                R.id.TextView1,   R.id.TextView2
+                R.id.TextView2,   R.id.TextView3, R.id.TextView1
         };
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.adapter_view_layout,from,to);

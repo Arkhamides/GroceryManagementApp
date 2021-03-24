@@ -15,8 +15,9 @@ public class AddInventoryItemActivity extends AppCompatActivity{
 
     DatabaseHelper mDatabaseHelper;
 
-    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_Subtotal,ed_txt_BrandName,ed_txt_Calories;
+    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories;
     Button b1, btnView;
+    String inventoryName = "Default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class AddInventoryItemActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String newEntry = ed_txt_ProductName.getText().toString();
                 if(ed_txt_ProductName.length() > 0) {
-                    addItem();
+                    addInventoryItem();
                 } else {
                     String s = mDatabaseHelper.getItemID("asdafsf");
                     toastMessage(s);
@@ -69,7 +70,6 @@ public class AddInventoryItemActivity extends AppCompatActivity{
         ed_txt_BrandName = findViewById(R.id.i_txt_BrandName);
         ed_txt_Price = findViewById(R.id.i_txt_Price);
         ed_txt_Quantity = findViewById(R.id.i_txt_Quantity);
-        ed_txt_Subtotal = findViewById(R.id.txt_Subtotal);
         ed_txt_Calories = findViewById(R.id.i_txt_Calories);
 
         b1 = findViewById(R.id.btn_add);
@@ -79,31 +79,35 @@ public class AddInventoryItemActivity extends AppCompatActivity{
     /**
      * Adds prodName, brandName to the local DB
      */
-    public void addItem(){
-        int price;
-        int quantity;
-        String prodName;
-        String brandName;
+    public void addInventoryItem(){
 
-        price = Integer.parseInt(ed_txt_Price.getText().toString());
-        quantity = Integer.parseInt(ed_txt_Quantity.getText().toString());
+        String prodName, itemID;
+        String brandName, brandID;
+
+        int price;
+        int calories;
+        int quantity;
+        String measurementLabel;
 
         prodName = ed_txt_ProductName.getText().toString();
         brandName = ed_txt_BrandName.getText().toString();
 
+        price = Integer.parseInt(ed_txt_Price.getText().toString());
+        calories = Integer.parseInt(ed_txt_Calories.getText().toString());
+        quantity = Integer.parseInt(ed_txt_Quantity.getText().toString());
 
-        ////////////////adds to database////////////////////
-        boolean insertData;
-        if(brandName.length()>0) {
-            insertData = mDatabaseHelper.addItem(prodName,brandName);
-        } else {
-            insertData = mDatabaseHelper.addItem(prodName);
-        }
+        boolean insertBrand, insertItem, insertInventoryItem;
 
-        if(insertData) {
-            toastMessage(prodName + " Item successfully inserted");
+
+        ////////////////adds Inventory Item to database////////////////////
+        //TODO: finish the function in order to add inventory item quantity to an item already existing.
+
+        insertInventoryItem = mDatabaseHelper.addInventoryItem(prodName, "default", brandName, Integer.toString(quantity));
+
+        if(insertInventoryItem) {
+            toastMessage("Item successfully inserted to the inventory");
         } else {
-            toastMessage("Error adding prodName");
+            toastMessage("Error adding InventoryItem");
         }
         ///////////////////////////////////////////////////
 
@@ -115,7 +119,6 @@ public class AddInventoryItemActivity extends AppCompatActivity{
         ed_txt_ProductName.setText("");
         ed_txt_Price.setText("");
         ed_txt_Quantity.setText("");
-        ed_txt_Subtotal.setText("");
         ed_txt_BrandName.setText("");
         ed_txt_Calories.setText("");
         ed_txt_ProductName.requestFocus();

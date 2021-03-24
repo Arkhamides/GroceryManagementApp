@@ -126,26 +126,27 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subtotal" />
+            android:text="Min Quantity" />
 
         <EditText
-            android:id="@+id/txt_Subtotal"
+            android:id="@+id/i_txt_MinQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10px"
-            android:background="@color/colorPrimaryDark"
-            android:enabled="false"
             android:minWidth="200dp"
-            android:textColor="#fff">
+            android:inputType="number"
+            >
 
         </EditText>
 
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
