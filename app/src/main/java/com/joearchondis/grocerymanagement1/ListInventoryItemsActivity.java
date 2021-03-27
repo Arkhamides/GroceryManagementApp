@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ public class ListInventoryItemsActivity extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 
     ListView mListView;
-    ArrayList<Item> ItemsList = new ArrayList<>();
 
     Button btn_add_inventory_item_activity;
 
@@ -38,7 +38,6 @@ public class ListInventoryItemsActivity extends AppCompatActivity {
 
         btn_add_inventory_item_activity = findViewById(R.id.btn_add_inventory_item_activity);
 
-        populateListView();
 
         btn_add_inventory_item_activity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +46,10 @@ public class ListInventoryItemsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        populateListView();
+
+
 
     }
 

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ListItemsActivity">
+        tools:context=".ListBrandsActivity">
 
 
         <LinearLayout
@@ -19,7 +19,7 @@
             android:weightSum="100">
 
             <EditText
-                android:id="@+id/searchFilterInventory"
+                android:id="@+id/searchFilterBrands"
                 android:layout_width="287dp"
                 android:layout_height="50dp"
                 android:layout_weight="60" />
@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/ListView_Items"
+            android:id="@+id/ListView_Brands"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/FilterLayout"
@@ -43,15 +43,7 @@
             android:listSelector="#600">
         </ListView>
 
-        <Button
-            android:id="@+id/btn_add_inventory_item_activity"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp"
-            android:text="Add item"
-            android:layout_alignParentRight="true"/>
+
 
 
     </RelativeLayout>

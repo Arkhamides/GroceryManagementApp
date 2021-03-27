@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn_brands.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListBrandsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     /////////////FUNCTIONS//////////////

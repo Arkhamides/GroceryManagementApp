@@ -15,49 +15,47 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListItemsActivity extends AppCompatActivity {
+public class ListBrandsActivity extends AppCompatActivity{
 
-    private static final String TAG = "ListDataActivity";
+    private static final String TAG = "ListBrandsActivity";
 
     DatabaseHelper mDatabaseHelper;
 
     ListView mListView;
     ArrayList<Item> ItemsList = new ArrayList<>();
 
-    @Override
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.items_layout);
+        setContentView(R.layout.brands_layout);
 
-        mListView =(ListView)findViewById(R.id.ListView_Items);
+        mListView =(ListView)findViewById(R.id.ListView_Brands);
         mDatabaseHelper = new DatabaseHelper(this);
 
-        populateListView();
+        populateBrandsListView();
     }
 
-    // Gets Items  data from local database and populates ListView.
-    private void populateListView() {
+
+
+    private void populateBrandsListView() {
         Log.d(TAG, "populateListView: Displaying data in the ListView");
 
         //get the data and append the list
         List<HashMap<String,String>> aList = new ArrayList<HashMap<String, String>>();
-        Cursor data = mDatabaseHelper.getItems();
+        Cursor data = mDatabaseHelper.getBrands();
         while(data.moveToNext()) {
-            Item i1 = new Item(data.getString(2),data.getString(4));
-            ItemsList.add(i1);
 
             HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("ListName",i1.name);
-            hm.put("ListBrand",  i1.brand);
-            hm.put("Description", "");
+            hm.put("ListName",data.getString(0));
+            hm.put("BrandName", "Brand Name " + data.getString(1));
             aList.add(hm);
         }
 
         String[] from = {
-                "ListName","ListBrand", "Description"
+                "ListName","BrandName"
         };
         int[] to = {
-                R.id.TextView2,   R.id.TextView3, R.id.TextView1
+                R.id.TextView2,   R.id.TextView3
         };
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.adapter_view_layout,from,to);
@@ -72,4 +70,5 @@ public class ListItemsActivity extends AppCompatActivity {
         });
 
     }
+
 }
