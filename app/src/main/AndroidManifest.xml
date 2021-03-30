@@ -26,6 +26,8 @@
 
         <activity android:name=".ListBrandsActivity"></activity>
 
+        <activity android:name=".LoginActivity"></activity>
+
 
     </application>
 

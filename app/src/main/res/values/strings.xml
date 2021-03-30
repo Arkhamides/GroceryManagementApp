@@ -3,4 +3,12 @@
     <string name="str_productName">Product Name</string>
     <string name="str_Add">Add</string>
     <string name="str_View">View</string>
+    
+    <string-array name="filterBy">
+        <item>Name</item>
+        <item>Brand</item>
+        <item>Quantity</item>
+    </string-array>
+    
+    
 </resources>

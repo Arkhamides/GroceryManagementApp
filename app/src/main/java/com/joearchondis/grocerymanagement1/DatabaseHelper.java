@@ -47,17 +47,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // in_transaction_history Columns
     private static final String KEY_IN_TRANSACTION_ID = "id";
-    private static final String KEY_IN_TRANSACTION_INVENTORY = "inventory_id";
-    private static final String KEY_IN_TRANSACTION_ITEM = "item_id";
+    private static final String KEY_IN_TRANSACTION_INVENTORY_ITEM_ID = "inventory_item_id";
     private static final String KEY_IN_TRANSACTION_QUANTITY = "quantity";
-    private static final String KEY_IN_TRANSACTION_price = "price";
+    private static final String KEY_IN_TRANSACTION_PRICE = "price";
     private static final String KEY_IN_TRANSACTION_DATE = "date";
     private static final String KEY_IN_TRANSACTION_EXPIRY_DATE = "expiry_date";
 
     // out_transaction_history Columns
     private static final String KEY_OUT_TRANSACTION_ID = "id";
-    private static final String KEY_OUT_TRANSACTION_INVENTORY = "inventory_id";
-    private static final String KEY_OUT_TRANSACTION_ITEM = "item_id";
+    private static final String KEY_OUT_TRANSACTION_INVENTORY_ITEM_ID = "inventory_item_id";
     private static final String KEY_OUT_TRANSACTION_QUANTITY = "quantity";
     private static final String KEY_OUT_TRANSACTION_PRICE = "price";
     private static final String KEY_OUT_TRANSACTION_DATE = "date";
@@ -98,7 +96,27 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String CREATE_INVENTORY_TABLE = "CREATE TABLE " + TABLE_INVENTORY +
                 "(" +
                      KEY_INVENTORY_ID + KEY_INVENTORY_ITEM_ID + " INTEGER PRIMARY KEY," +
-                KEY_INVENTORY_NAME + " TEXT" +
+                     KEY_INVENTORY_NAME + " TEXT" +
+                ")";
+
+        String CREATE_IN_TRANSACTIONS_TABLE = "CREATE TABLE " + TABLE_IN_TRANSACTIONS +
+                "(" +
+                    KEY_IN_TRANSACTION_ID + " INTEGER PRIMARY KEY," +
+                    KEY_IN_TRANSACTION_INVENTORY_ITEM_ID + " INTEGER REFERENCES " + TABLE_INVENTORY + "(" + KEY_INVENTORY_ID + ")," + //unique FK
+                    KEY_IN_TRANSACTION_QUANTITY + " INTEGER," +
+                    KEY_IN_TRANSACTION_PRICE + " INTEGER," +
+                    KEY_IN_TRANSACTION_DATE + " DATE," +
+                    KEY_IN_TRANSACTION_EXPIRY_DATE + " DATE" +
+                ")";
+
+        String CREATE_OUT_TRANSACTIONS_TABLE = "CREATE TABLE " + TABLE_OUT_TRANSACTIONS +
+                "(" +
+                KEY_OUT_TRANSACTION_ID + " INTEGER PRIMARY KEY," +
+                KEY_OUT_TRANSACTION_INVENTORY_ITEM_ID + " INTEGER REFERENCES " + TABLE_INVENTORY + "(" + KEY_INVENTORY_ID + ")," + //unique FK
+                KEY_OUT_TRANSACTION_QUANTITY + " INTEGER," +
+                KEY_OUT_TRANSACTION_PRICE + " INTEGER," +
+                KEY_OUT_TRANSACTION_DATE + " DATE," +
+                KEY_OUT_TRANSACTION_EXPIRY_DATE + " DATE" +
                 ")";
 
 
@@ -106,6 +124,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_BRANDS_TABLE);
         db.execSQL(CREATE_INVENTORY_TABLE);
         db.execSQL(CREATE_INVENTORY_ITEMS_TABLE);
+        db.execSQL(CREATE_IN_TRANSACTIONS_TABLE);
+        db.execSQL(CREATE_OUT_TRANSACTIONS_TABLE);
 
     }
 
@@ -114,6 +134,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BRANDS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IN_TRANSACTIONS);
         onCreate(db);
     }
 
@@ -200,47 +222,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    public boolean addInventoryItem(String itemName,
-                                    String brandName,
-                                    String measurementLabel,
-                                    String price,
-                                    String calories,
-                                    String quantity,
-                                    String min_quantity) {
-        String itemID;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-
-        //check if item exists
-        itemID = getItemID(itemName);
-        if(itemID == "-1"){
-            addItem(itemName,brandName);
-        }
-        itemID = getItemID(itemName);
-
-        contentValues.put(KEY_INVENTORY_ITEM_ITEM_ID, itemID);
-        contentValues.put(KEY_INVENTORY_ITEM_MEASUREMENT, measurementLabel);
-        contentValues.put(KEY_INVENTORY_ITEM_CALORIES, calories);
-        contentValues.put(KEY_INVENTORY_ITEM_PRICE, price);
-        contentValues.put(KEY_INVENTORY_ITEM_QUANTITY, quantity);
-        contentValues.put(KEY_INVENTORY_ITEM_MINIMUM_QTY, min_quantity);
-
-        long result = db.insert(TABLE_INVENTORY, null, contentValues);
-
-        if(result == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean addInventoryItem(String itemName, String inventoryName, String brandName, String quantity) {
-        String itemID, brandID, inventoryItemID;
-        String inventoryID;
-
-        //TODO FIX BUG WHERE INVENTORY ITEMS DOESNT GET ADDED IF BRANDNAME EXISTS
+    public boolean addInventoryItem(String itemName, String brandName, String measurementLabel, String price, String calories,
+                                    String quantity, String min_quantity) {
+        String itemID, brandID;
 
         //check if brand exists
         brandID = getBrandID(brandName);
@@ -256,10 +240,44 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         itemID = getItemID(itemName, brandName);
 
-        inventoryItemID = getInventoryItemID(itemName, brandName);
-        if(inventoryItemID == "-1"){
-            //addToInventory();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KEY_INVENTORY_ITEM_ITEM_ID, itemID);
+        contentValues.put(KEY_INVENTORY_ITEM_INVENTORY_ID, "1");
+        contentValues.put(KEY_INVENTORY_ITEM_QUANTITY, quantity);
+        contentValues.put(KEY_INVENTORY_ITEM_MEASUREMENT, measurementLabel);
+        contentValues.put(KEY_INVENTORY_ITEM_PRICE, price);
+        contentValues.put(KEY_INVENTORY_ITEM_CALORIES, calories);
+        contentValues.put(KEY_INVENTORY_ITEM_MINIMUM_QTY, min_quantity);
+
+        long result = db.insert(TABLE_INVENTORY_ITEMS, null, contentValues);
+
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
         }
+    }
+
+    public boolean addInventoryItem(String itemName, String brandName, String inventoryName, String quantity) {
+        String itemID, brandID;
+
+        //check if brand exists
+        brandID = getBrandID(brandName);
+        if(brandID == "-1") {
+            addBrand(brandName);
+        }
+
+        //check if item exists
+        itemID = getItemID(itemName,brandName);
+        if(itemID == "-1"){
+            addItem(itemName, brandName);
+        }
+
+        itemID = getItemID(itemName, brandName);
+
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -275,7 +293,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         } else {
             return true;
         }
+
+
     }
+
+    public boolean addInTransaction(String inventory_item_id, String quantity, String price, String date, String expiry_date) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KEY_IN_TRANSACTION_INVENTORY_ITEM_ID,inventory_item_id);
+        contentValues.put(KEY_IN_TRANSACTION_QUANTITY,quantity);
+        contentValues.put(KEY_IN_TRANSACTION_PRICE,price);
+        contentValues.put(KEY_IN_TRANSACTION_DATE,date);
+        contentValues.put(KEY_IN_TRANSACTION_EXPIRY_DATE,expiry_date);
+
+        long result = db.insert(TABLE_IN_TRANSACTIONS, null, contentValues);
+
+        //if data is inserted incorrectly it will return -1
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
 
     /*******************************************************************************/
 
@@ -313,13 +357,39 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 " ON " + TABLE_INVENTORY_ITEMS+"."+KEY_INVENTORY_ITEM_ITEM_ID + " = " + TABLE_ITEMS+"."+KEY_ITEMS_ID +
                 " JOIN " + TABLE_BRANDS +
                 " ON " + TABLE_ITEMS+"."+KEY_ITEMS_BRAND_ID + " = " + TABLE_BRANDS+"."+KEY_BRANDS_ID;
-        
-        String query2 = "Select * FROM " + TABLE_INVENTORY_ITEMS; //Testing purposes
 
 
         Cursor data = db.rawQuery(query,null);
         return data;
     }
+
+    public Cursor getFilteredInventoryItems(String filterName, String orderBy) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT " + TABLE_INVENTORY_ITEMS+"."+KEY_INVENTORY_ITEM_ID +
+                ", " + TABLE_ITEMS+"."+KEY_ITEMS_NAME+
+                ", " + TABLE_BRANDS+"."+KEY_BRANDS_NAME+
+                ", " +KEY_INVENTORY_ITEM_QUANTITY +
+
+                " FROM " + TABLE_INVENTORY_ITEMS +
+                " JOIN " + TABLE_ITEMS +
+                " ON " + TABLE_INVENTORY_ITEMS+"."+KEY_INVENTORY_ITEM_ITEM_ID + " = " + TABLE_ITEMS+"."+KEY_ITEMS_ID +
+                " JOIN " + TABLE_BRANDS +
+                " ON " + TABLE_ITEMS+"."+KEY_ITEMS_BRAND_ID + " = " + TABLE_BRANDS+"."+KEY_BRANDS_ID +
+                " WHERE " + TABLE_ITEMS+"."+KEY_ITEMS_NAME +
+                " LIKE " + "'%"+filterName+"%'";
+
+
+        String query2 = "Select * FROM " + TABLE_INVENTORY_ITEMS; //Testing purposes
+
+
+        Cursor data = db.rawQuery(query,null);
+        return data;
+
+    }
+
+
 
     /**
      * Returns only the ID that matches the name passed in. Returns -1 if not available

@@ -81,8 +81,8 @@ public class AddInventoryItemActivity extends AppCompatActivity{
      */
     public void addInventoryItem(){
 
-        String prodName, itemID;
-        String brandName, brandID;
+        String prodName;
+        String brandName;
 
         int price;
         int calories;
@@ -96,7 +96,7 @@ public class AddInventoryItemActivity extends AppCompatActivity{
         calories = Integer.parseInt(ed_txt_Calories.getText().toString());
         quantity = Integer.parseInt(ed_txt_Quantity.getText().toString());
 
-        boolean insertBrand, insertItem, insertInventoryItem;
+        boolean insertInventoryItem;
 
 
         ////////////////adds Inventory Item to database////////////////////

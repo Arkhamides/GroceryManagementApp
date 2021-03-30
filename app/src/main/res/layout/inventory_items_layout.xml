@@ -25,11 +25,22 @@
                 android:layout_weight="60" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btn_search"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="40"
-                android:text="Filter" />
+                android:text="Search" />
+
+            <Spinner
+                android:id="@+id/spinner_filterBy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+
+
+
 
         </LinearLayout>
 
