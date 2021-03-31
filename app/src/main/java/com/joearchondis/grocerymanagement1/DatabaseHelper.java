@@ -119,7 +119,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 KEY_OUT_TRANSACTION_EXPIRY_DATE + " DATE" +
                 ")";
 
-
         db.execSQL(CREATE_ITEMS_TABLE);
         db.execSQL(CREATE_BRANDS_TABLE);
         db.execSQL(CREATE_INVENTORY_TABLE);
@@ -131,11 +130,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IN_TRANSACTIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BRANDS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_ITEMS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IN_TRANSACTIONS);
         onCreate(db);
     }
 

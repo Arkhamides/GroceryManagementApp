@@ -5,19 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AddInventoryItemActivity extends AppCompatActivity{
+public class AddInventoryItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "AddInventoryItemActivity";
 
     DatabaseHelper mDatabaseHelper;
 
-    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories;
-    Button b1, btnView;
     String inventoryName = "Default";
+    String str_measurement = "";
+
+    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories;
+    Button btnAdd, btnView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +30,22 @@ public class AddInventoryItemActivity extends AppCompatActivity{
         setContentView(R.layout.activity_add_inventory_item);
         mDatabaseHelper = new DatabaseHelper(this);
 
+        Spinner spinner_measurements = findViewById(R.id.spinner_measurement);
+        ArrayAdapter<CharSequence> adapter_filterBy = ArrayAdapter.createFromResource(this,R.array.measurements, android.R.layout.simple_spinner_item);
+        adapter_filterBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_measurements.setAdapter(adapter_filterBy);
+        spinner_measurements.setOnItemSelectedListener(this);
+
         findViews();
 
-        b1.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newEntry = ed_txt_ProductName.getText().toString();
                 if(ed_txt_ProductName.length() > 0) {
                     addInventoryItem();
                 } else {
-                    String s = mDatabaseHelper.getItemID("asdafsf");
-                    toastMessage(s);
+                    toastMessage("Wrong inputs");
                 }
-
             }
         });
 
@@ -63,7 +71,7 @@ public class AddInventoryItemActivity extends AppCompatActivity{
 
     /**
      * Sets EditText ed_txt_ProductName, ed_txt_Price, ed_txt_Quantity, ed_txt_Subtotal
-     * Sets Button b1, btnView
+     * Sets Button btnAdd, btnView
      */
     public void findViews() {
         ed_txt_ProductName = findViewById(R.id.i_txt_ProductName);
@@ -72,7 +80,7 @@ public class AddInventoryItemActivity extends AppCompatActivity{
         ed_txt_Quantity = findViewById(R.id.i_txt_Quantity);
         ed_txt_Calories = findViewById(R.id.i_txt_Calories);
 
-        b1 = findViewById(R.id.btn_add);
+        btnAdd = findViewById(R.id.btn_add);
         btnView = findViewById(R.id.btn_ViewData);
     }
 
@@ -98,11 +106,9 @@ public class AddInventoryItemActivity extends AppCompatActivity{
 
         boolean insertInventoryItem;
 
-
         ////////////////adds Inventory Item to database////////////////////
-        //TODO: finish the function in order to add inventory item quantity to an item already existing.
 
-        insertInventoryItem = mDatabaseHelper.addInventoryItem(prodName, "default", brandName, Integer.toString(quantity));
+        insertInventoryItem = mDatabaseHelper.addInventoryItem(prodName, brandName, inventoryName, Integer.toString(quantity));
 
         if(insertInventoryItem) {
             toastMessage("Item successfully inserted to the inventory");
@@ -123,6 +129,18 @@ public class AddInventoryItemActivity extends AppCompatActivity{
         ed_txt_Calories.setText("");
         ed_txt_ProductName.requestFocus();
 
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        str_measurement = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(),str_measurement,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        str_measurement = "";
     }
 
 }

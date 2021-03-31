@@ -54,7 +54,6 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
         btn_search = findViewById(R.id.btn_search);
 
 
-
         btn_add_inventory_item_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +84,7 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
             HashMap<String, String> hm = new HashMap<String,String>();
             hm.put("itemName", "Product Name: " + data.getString(1));
             hm.put("brandName", "Brand Name: " + data.getString(2));
-            hm.put("quantity", "ID: " + data.getString(0));
+            hm.put("quantity", "quantity: " + data.getString(3));
             aList.add(hm);
         }
 
