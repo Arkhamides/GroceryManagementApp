@@ -29,7 +29,7 @@ public class ListHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_layout);
 
-        mListView =(ListView)findViewById(R.id.ListView_Items);
+        mListView =(ListView)findViewById(R.id.ListView_History);
         mDatabaseHelper = new DatabaseHelper(this);
 
         populateListView();
@@ -68,7 +68,7 @@ public class ListHistoryActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), i ,Toast.LENGTH_LONG).show();//show the selected image in toast according to position
+                Toast.makeText(getApplicationContext(),"" + i ,Toast.LENGTH_LONG).show();//toast according to position
             }
         });
 
