@@ -99,7 +99,7 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
 
         boolean insertInventoryItem;
 
-        ////////////////adds Inventory Item to database////////////////////
+        ////////////////adds record to InventoryItems table////////////////////
 
         insertInventoryItem = mDatabaseHelper.addInventoryItem(prodName, brandName, str_measurement, price, calories,
                 quantity, min_quantity);
@@ -109,10 +109,29 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         } else {
             toastMessage("Error adding InventoryItem");
         }
-        ///////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+
+        //Adds InTransaction
+        String inventoryItemID = mDatabaseHelper.getInventoryItemID(prodName,brandName);
+        addInTransaction(inventoryItemID);
 
         refresh_data_Table(); //refreshes data table
     }
+
+    public void addInTransaction(String inventoryItemID){
+        String price, quantity;
+        price = ed_txt_Price.getText().toString();
+        quantity = ed_txt_Quantity.getText().toString();
+
+        boolean insertInTransaction;
+
+        insertInTransaction = mDatabaseHelper.addInTransaction(inventoryItemID, quantity, price, "date", "expiry_date");
+        if(!insertInTransaction) {
+            toastMessage("Error adding InTransaction");
+        }
+
+    }
+
 
     public void refresh_data_Table(){
 
@@ -146,7 +165,6 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         }
 
     }
-
 
 
     @Override

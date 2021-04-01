@@ -8,13 +8,12 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="@string/str_productName"
             tools:text="Product Name" />
@@ -32,13 +31,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Brand Name"
             tools:text="Brand Name" />
@@ -57,13 +55,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Price" />
 
@@ -79,13 +76,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Calories" />
 
@@ -101,43 +97,37 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Quantity" />
 
         <EditText
             android:id="@+id/i_txt_Quantity"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:minWidth="200dp"
             android:inputType="number"
-            >
-        </EditText>
+            android:minWidth="200dp"></EditText>
 
 
         <Spinner
             android:id="@+id/spinner_measurement"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </Spinner>
-
+            android:layout_height="wrap_content"></Spinner>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Min Quantity" />
 
@@ -145,9 +135,8 @@
             android:id="@+id/i_txt_MinQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="200dp"
             android:inputType="number"
-            >
+            android:minWidth="200dp">
 
         </EditText>
 
