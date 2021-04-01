@@ -513,8 +513,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return data;
     }
 
+    public Cursor getHistory() {
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_OUT_TRANSACTIONS +
+                " JOIN " + TABLE_IN_TRANSACTIONS;
+        Cursor data = db.rawQuery(query,null);
+        return data;
 
+    }
 
 
     /*******************************************************************************/

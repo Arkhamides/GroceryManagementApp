@@ -156,4 +156,6 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
     public void onNothingSelected(AdapterView<?> parent) {
         str_filter = "Name";
     }
+
+
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ListItemsActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/FilterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <EditText
+                    android:id="@+id/searchFilterHistory"
+                    android:layout_width="287dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="60" />
+
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Search" />
+
+
+            </LinearLayout>
+
+
+
+            <ListView
+                android:id="@+id/ListView_History"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#000"
+                android:dividerHeight="2dp"
+                android:listSelector="#600"></ListView>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add_inventory_item_activity"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
+            android:text="Add item"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

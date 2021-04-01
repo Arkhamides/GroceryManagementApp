@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btn_inventory = findViewById(R.id.btn_inventory);
         btn_items = findViewById(R.id.btn_items);
         btn_brands = findViewById(R.id.btn_brands);
+        btn_history = findViewById(R.id.btn_history);
         btn_login = findViewById(R.id.btn_login);
 
         btn_items.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
