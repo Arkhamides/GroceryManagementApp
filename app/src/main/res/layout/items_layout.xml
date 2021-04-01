@@ -10,19 +10,45 @@
         android:layout_height="match_parent"
         tools:context=".ListItemsActivity">
 
-        <EditText
-            android:id="@+id/searchFilter"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <ListView
-            android:id="@+id/ListView_Items"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/searchFilter"
-            android:divider="#000"
-            android:dividerHeight="2dp"
-            android:listSelector="#600" />
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/FilterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <EditText
+                    android:id="@+id/searchFilterItems"
+                    android:layout_width="287dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="60" />
+
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Search" />
+
+            </LinearLayout>
+
+
+
+
+            <ListView
+                android:id="@+id/ListView_Items"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#000"
+                android:dividerHeight="2dp"
+                android:listSelector="#600" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

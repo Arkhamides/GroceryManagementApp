@@ -46,8 +46,8 @@ public class ListBrandsActivity extends AppCompatActivity{
         while(data.moveToNext()) {
 
             HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("ListName",data.getString(0));
-            hm.put("BrandName", "Brand Name " + data.getString(1));
+            hm.put("ListName", data.getString(0) + " Brand Name: " );
+            hm.put("BrandName", data.getString(1));
             aList.add(hm);
         }
 
@@ -55,10 +55,10 @@ public class ListBrandsActivity extends AppCompatActivity{
                 "ListName","BrandName"
         };
         int[] to = {
-                R.id.TextView2,   R.id.TextView3
+                R.id.TextView_ItemName,   R.id.TextView_ItemDescription
         };
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.adapter_view_layout,from,to);
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.adapter_view_items_layout,from,to);
         mListView.setAdapter(simpleAdapter);
 
         //perform listView item click event

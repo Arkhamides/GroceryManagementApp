@@ -12,47 +12,61 @@
 
 
         <LinearLayout
-            android:id="@+id/FilterLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:weightSum="100">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/searchFilterInventory"
-                android:layout_width="287dp"
+            <LinearLayout
+                android:id="@+id/FilterLayout"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_weight="60" />
+                android:orientation="horizontal"
+                android:weightSum="100">
 
-            <Button
-                android:id="@+id/btn_search"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:text="Search" />
+                <EditText
+                    android:id="@+id/searchFilterInventory"
+                    android:layout_width="287dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="60" />
 
-            <Spinner
-                android:id="@+id/spinner_filterBy"
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Search" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            </Spinner>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filter By:" />
 
+                <Spinner
+                    android:id="@+id/spinner_filterBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
+                </Spinner>
+            </LinearLayout>
 
-
+            <ListView
+                android:id="@+id/ListView_Items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#000"
+                android:dividerHeight="2dp"
+                android:listSelector="#600"></ListView>
 
         </LinearLayout>
-
-        <ListView
-            android:id="@+id/ListView_Items"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/FilterLayout"
-            android:divider="#000"
-            android:dividerHeight="2dp"
-            android:listSelector="#600">
-        </ListView>
 
         <Button
             android:id="@+id/btn_add_inventory_item_activity"

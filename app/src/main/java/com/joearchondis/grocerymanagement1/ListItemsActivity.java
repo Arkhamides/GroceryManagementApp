@@ -47,8 +47,8 @@ public class ListItemsActivity extends AppCompatActivity {
             ItemsList.add(i1);
 
             HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("ListName",i1.name);
-            hm.put("ListBrand",  i1.brand);
+            hm.put("ListName", "Item: " + i1.name);
+            hm.put("ListBrand", "Brand: " + i1.brand);
             hm.put("Description", "");
             aList.add(hm);
         }
