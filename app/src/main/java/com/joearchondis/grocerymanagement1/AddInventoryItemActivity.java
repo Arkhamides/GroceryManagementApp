@@ -19,9 +19,9 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
     DatabaseHelper mDatabaseHelper;
 
     String inventoryName = "Default";
-    String str_measurement = "";
+    String str_measurement = "Unit(s)";
 
-    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories;
+    EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories, ed_txt_min_quantity;
     Button btnAdd, btnView;
 
     @Override
@@ -41,18 +41,14 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ed_txt_ProductName.length() > 0) {
-                    addInventoryItem();
-                } else {
-                    toastMessage("Wrong inputs");
-                }
+                button_add();
             }
         });
 
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddInventoryItemActivity.this, ListItemsActivity.class);
+                Intent intent = new Intent(AddInventoryItemActivity.this, ListInventoryItemsActivity.class);
                 startActivity(intent);
             }
         });
@@ -79,6 +75,7 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         ed_txt_Price = findViewById(R.id.i_txt_Price);
         ed_txt_Quantity = findViewById(R.id.i_txt_Quantity);
         ed_txt_Calories = findViewById(R.id.i_txt_Calories);
+        ed_txt_min_quantity = findViewById(R.id.i_txt_MinQuantity);
 
         btnAdd = findViewById(R.id.btn_add);
         btnView = findViewById(R.id.btn_ViewData);
@@ -89,26 +86,23 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
      */
     public void addInventoryItem(){
 
-        String prodName;
-        String brandName;
-
-        int price;
-        int calories;
-        int quantity;
-        String measurementLabel;
+        String prodName, brandName, price, calories, quantity, min_quantity;
 
         prodName = ed_txt_ProductName.getText().toString();
         brandName = ed_txt_BrandName.getText().toString();
+        price = ed_txt_Price.getText().toString();
+        calories = ed_txt_Calories.getText().toString();
+        quantity = ed_txt_Quantity.getText().toString();
+        min_quantity = ed_txt_Quantity.getText().toString();
 
-        price = Integer.parseInt(ed_txt_Price.getText().toString());
-        calories = Integer.parseInt(ed_txt_Calories.getText().toString());
-        quantity = Integer.parseInt(ed_txt_Quantity.getText().toString());
+        //TODO UI for adding. if no quantity selected then quantity = 0
 
         boolean insertInventoryItem;
 
         ////////////////adds Inventory Item to database////////////////////
 
-        insertInventoryItem = mDatabaseHelper.addInventoryItem(prodName, brandName, inventoryName, Integer.toString(quantity));
+        insertInventoryItem = mDatabaseHelper.addInventoryItem(prodName, brandName, str_measurement, price, calories,
+                quantity, min_quantity);
 
         if(insertInventoryItem) {
             toastMessage("Item successfully inserted to the inventory");
@@ -127,20 +121,42 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         ed_txt_Quantity.setText("");
         ed_txt_BrandName.setText("");
         ed_txt_Calories.setText("");
+        ed_txt_min_quantity.setText("");
         ed_txt_ProductName.requestFocus();
 
     }
+
+    public void button_add() {
+
+        if(ed_txt_ProductName.length() > 0) {
+
+            String prodName = ed_txt_ProductName.getText().toString();
+            String brandName = ed_txt_BrandName.getText().toString();
+
+            String InventoryID =  mDatabaseHelper.getInventoryItemID(prodName, brandName);
+
+            if(InventoryID != "-1") {
+                toastMessage("Item already exists in inventory");
+            } else {
+                addInventoryItem();
+            }
+
+        } else {
+            toastMessage("Wrong inputs");
+        }
+
+    }
+
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         str_measurement = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(),str_measurement,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        str_measurement = "";
+        str_measurement = "Unit(s)";
     }
 
 }

@@ -319,6 +319,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
+    public boolean addOutTransaction(String inventory_item_id, String quantity, String price, String date, String expiry_date) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KEY_IN_TRANSACTION_INVENTORY_ITEM_ID,inventory_item_id);
+        contentValues.put(KEY_IN_TRANSACTION_QUANTITY,quantity);
+        contentValues.put(KEY_IN_TRANSACTION_PRICE,price);
+        contentValues.put(KEY_IN_TRANSACTION_DATE,date);
+        contentValues.put(KEY_IN_TRANSACTION_EXPIRY_DATE,expiry_date);
+
+        long result = db.insert(TABLE_OUT_TRANSACTIONS, null, contentValues);
+
+        //if data is inserted incorrectly it will return -1
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 
 
     /*******************************************************************************/
@@ -447,9 +469,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return result;
     }
 
-    public String getInventoryItemID(String ItemName, String BrandID) {
+    public String getInventoryItemID(String ItemName, String BrandName) {
         String result = "";
-        String ItemID;
+        String ItemID, BrandID;
+
+        BrandID = getBrandID(BrandName);
+
+        if(BrandID == "-1")
+            return "-1";
+
         ItemID = getItemID (ItemName, BrandID);
 
         if(ItemID == "-1") { return "-1"; }
@@ -463,8 +491,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         while(data.moveToNext()) {
             result = data.getString(0);
         }
+
         if(result == "")
             return "-1";
+
         return result;
         
     }
