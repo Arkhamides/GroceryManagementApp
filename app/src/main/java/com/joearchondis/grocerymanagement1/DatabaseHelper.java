@@ -517,7 +517,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_OUT_TRANSACTIONS +
-                " JOIN " + TABLE_IN_TRANSACTIONS;
+                " CROSS JOIN " + TABLE_IN_TRANSACTIONS;
         Cursor data = db.rawQuery(query,null);
         return data;
 

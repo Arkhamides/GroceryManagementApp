@@ -55,11 +55,26 @@
                 android:text="History" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_groceryList"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:text="Grocery List" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login" />
+        
     </LinearLayout>
 
 
