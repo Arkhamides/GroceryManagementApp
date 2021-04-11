@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
 
-    Button btn_inventory, btn_items, btn_brands, btn_history, btn_login;
+    Button btn_inventory, btn_items, btn_brands, btn_history, btn_login, btn_register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         btn_brands = findViewById(R.id.btn_brands);
         btn_history = findViewById(R.id.btn_history);
         btn_login = findViewById(R.id.btn_login);
+        btn_register = findViewById(R.id.btn_register);
 
         btn_items.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +69,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_history.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ListHistoryActivity.class);
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
                 startActivity(intent);
             }
         });
+
 
 
     }

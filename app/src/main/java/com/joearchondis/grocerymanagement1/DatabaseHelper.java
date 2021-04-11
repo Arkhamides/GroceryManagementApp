@@ -378,7 +378,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 " JOIN " + TABLE_ITEMS +
                 " ON " + TABLE_INVENTORY_ITEMS+"."+KEY_INVENTORY_ITEM_ITEM_ID + " = " + TABLE_ITEMS+"."+KEY_ITEMS_ID +
                 " JOIN " + TABLE_BRANDS +
-                " ON " + TABLE_ITEMS+"."+KEY_ITEMS_BRAND_ID + " = " + TABLE_BRANDS+"."+KEY_BRANDS_ID;
+                " ON " + TABLE_ITEMS+"."+KEY_ITEMS_BRAND_ID + " = " + TABLE_BRANDS+"."+KEY_BRANDS_ID +
+                " ORDER BY " + TABLE_ITEMS+"."+KEY_ITEMS_NAME;
 
 
         Cursor data = db.rawQuery(query,null);

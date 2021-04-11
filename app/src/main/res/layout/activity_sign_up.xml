@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fullname"
+                android:id="@+id/i_signup_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:targetApi="jelly_bean" />
@@ -60,7 +60,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFullname">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email"
+                android:id="@+id/i_signup_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:targetApi="jelly_bean" />
@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/username"
+                android:id="@+id/i_signup_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:targetApi="jelly_bean" />
@@ -95,7 +95,7 @@
             tools:layout_editor_absoluteX="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
+                android:id="@+id/i_signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="password"
@@ -112,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
 
         <Button
-            android:id="@+id/buttonSignUp"
+            android:id="@+id/btn_SignUp"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
             android:text="loginhere"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSignUp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_SignUp"
             tools:targetApi="jelly_bean" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

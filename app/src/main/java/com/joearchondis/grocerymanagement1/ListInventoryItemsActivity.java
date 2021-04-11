@@ -27,10 +27,10 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
     DatabaseHelper mDatabaseHelper;
 
     ListView mListView;
-
     Button btn_add_inventory_item_activity, btn_search;
-
     EditText ed_search;
+
+    ArrayList<InventoryItem> InventoryItemsList = new ArrayList<>();
 
     String str_filter;
 
@@ -71,6 +71,7 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
 
         populateListView();
 
+
     }
 
     // Gets Inventory Items data from local database and populates ListView.
@@ -81,9 +82,12 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
         Cursor data = mDatabaseHelper.getInventoryItems();
 
         while(data.moveToNext()) {
+            InventoryItem invItem= new InventoryItem(data.getString(1),data.getString(2));
+            InventoryItemsList.add(invItem);
+
             HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("itemName", "Product Name: " + data.getString(1));
-            hm.put("brandName", "Brand Name: " + data.getString(2));
+            hm.put("itemName", "Product Name: " + invItem.name);
+            hm.put("brandName", "Brand Name: " + invItem.brand);
             hm.put("quantity", "quantity: " + data.getString(3));
             aList.add(hm);
         }
@@ -102,7 +106,10 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), i ,Toast.LENGTH_LONG).show();//show the selected image in toast according to position
+
+                ((MyApplication) getApplication()).setSelectedItem(InventoryItemsList.get(i).name);
+                String s = ((MyApplication) getApplication()).getSelectedItem();
+                Toast.makeText(getApplicationContext(), s ,Toast.LENGTH_LONG).show();//show the selected image in toast according to position
             }
         });
 

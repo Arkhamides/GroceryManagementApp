@@ -67,7 +67,10 @@ public class ListItemsActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), i ,Toast.LENGTH_LONG).show();//show the selected image in toast according to position
+
+                ((MyApplication) getApplication()).setSelectedItem(ItemsList.get(i).name);
+                String s = ((MyApplication) getApplication()).getSelectedItem();
+                Toast.makeText(getApplicationContext(), s ,Toast.LENGTH_LONG).show();
             }
         });
 
