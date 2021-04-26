@@ -11,28 +11,6 @@
         tools:context=".ListBrandsActivity">
 
 
-        <LinearLayout
-            android:id="@+id/FilterLayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:weightSum="100">
-
-            <EditText
-                android:id="@+id/searchFilterBrands"
-                android:layout_width="287dp"
-                android:layout_height="50dp"
-                android:layout_weight="60" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:text="Search" />
-
-        </LinearLayout>
-
         <ListView
             android:id="@+id/ListView_Brands"
             android:layout_width="match_parent"

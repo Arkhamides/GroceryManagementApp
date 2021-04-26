@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Calendar;
+
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String TAG = "DatabaseHelper";
@@ -90,7 +92,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     KEY_INVENTORY_ITEM_MEASUREMENT + " TEXT," + // kg, ml, L, packs.
                     KEY_INVENTORY_ITEM_PRICE + " INTEGER," +
                     KEY_INVENTORY_ITEM_CALORIES + " INTEGER," +
-                    KEY_INVENTORY_ITEM_MINIMUM_QTY + " INTEGER" +
+                    KEY_INVENTORY_ITEM_MINIMUM_QTY + " INTEGER," +
+                    KEY_INVENTORY_ITEM_EXPIRY_DATE + " DATE" +
+
                 ")";
 
         String CREATE_INVENTORY_TABLE = "CREATE TABLE " + TABLE_INVENTORY +
@@ -140,25 +144,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /*************************   ADD FUNCTIONS    **********************************/
-
-    public boolean addItem(String itemName) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_ITEMS_NAME,itemName);
-
-        Log.d(TAG, "addData: Adding " + itemName + " to " + TABLE_ITEMS);
-
-        long result = db.insert(TABLE_ITEMS, null, contentValues);
-
-        //if data is inserted incorrectly it will return -1
-        if(result == -1) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
 
     public boolean addItem(String itemName, String BrandName) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -224,13 +209,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public boolean addInventoryItem(String itemName, String brandName, String measurementLabel, String price, String calories,
                                     String quantity, String min_quantity) {
-        String itemID, brandID;
+        String itemID;
 
-        //check if brand exists
-        brandID = getBrandID(brandName);
-        if(brandID == "-1") {
-            addBrand(brandName);
-        }
 
         //check if item exists
         itemID = getItemID(itemName,brandName);
@@ -259,6 +239,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         } else {
             return true;
         }
+    }
+
+    public void InsertExpiryDateToInventoryItem(String itemName, String brandName, Calendar date) {
+
+        String InventoryID = getInventoryItemID(itemName, brandName);
+
+        String year = String.valueOf(date.get(Calendar.YEAR));
+        String month = String.valueOf(date.get(Calendar.MONTH));
+        String day = String.valueOf(date.get(Calendar.DAY_OF_MONTH));
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_INVENTORY_ITEMS +
+                " SET " + KEY_OUT_TRANSACTION_EXPIRY_DATE +
+                " = " + "'"+year+"-"+month+"-"+day+"'" +
+                " WHERE " + KEY_INVENTORY_ITEM_ID + " = '" + InventoryID + "'";
+
+        db.execSQL(query);
     }
 
     public boolean addInventoryItem(String itemName, String brandName, String inventoryName, String quantity) {
@@ -385,6 +382,31 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor data = db.rawQuery(query,null);
         return data;
     }
+
+    public Cursor getInventoryItem(String inventoryName, String itemName, String itemBrand) {
+
+        // fk Item id
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * " +
+
+                " FROM " + TABLE_INVENTORY_ITEMS +
+                " JOIN " + TABLE_ITEMS +
+                " ON " + TABLE_INVENTORY_ITEMS+"."+KEY_INVENTORY_ITEM_ITEM_ID + " = " + TABLE_ITEMS+"."+KEY_ITEMS_ID +
+                " JOIN " + TABLE_BRANDS +
+                " ON " + TABLE_ITEMS+"."+KEY_ITEMS_BRAND_ID + " = " + TABLE_BRANDS+"."+KEY_BRANDS_ID +
+                " WHERE " + TABLE_ITEMS+"."+KEY_ITEMS_NAME +
+                " LIKE " + "'"+itemName+"'" +
+                " AND " + TABLE_BRANDS+"."+KEY_BRANDS_NAME +
+                " LIKE " + "'"+itemBrand+"'" +
+                " ORDER BY " + TABLE_ITEMS+"."+KEY_ITEMS_NAME;
+
+
+        Cursor data = db.rawQuery(query,null);
+        return data;
+    }
+
+
 
     public Cursor getFilteredInventoryItems(String filterName, String orderBy) {
 
@@ -532,36 +554,85 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     /**
      * Updates the name field
      * @param newName
-     * @param id
      * @param oldName
+     * @param oldBrand
      */
 
-    public void updateItem(String newName, int id, String oldName, String oldBrand){
+    public void updateItemName(String newName, String oldName, String oldBrand){
 
         String oldBrandID = getBrandID(oldBrand);
+        String id = getItemID(oldName, oldBrand);
+
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "UPDATE " + TABLE_ITEMS + " SET " + KEY_ITEMS_NAME +
-                " = '" + newName + "' WHERE " + KEY_ITEMS_ID + " = '" + id + "'" +
+        String query = "UPDATE " + TABLE_ITEMS +
+                " SET " + KEY_ITEMS_NAME +
+                " = '" + newName +  "'" +
+                " WHERE " + KEY_ITEMS_ID + " = '" + id + "'" +
                 " AND " + KEY_ITEMS_NAME + " = '" + oldName + "'" +
-                " AND " + KEY_ITEMS_BRAND_ID + " = '" + oldBrandID + "'"
-                ;
+                " AND " + KEY_ITEMS_BRAND_ID + " = '" + oldBrandID + "'";
+
         Log.d(TAG, "updateName: query: " + query);
         Log.d(TAG, "updateName: Setting name to " + newName);
         db.execSQL(query);
     }
 
+    public void updateBrandName(String newBrandName, String oldBrandName) {
+
+        String oldBrandID = getBrandID(oldBrandName);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_BRANDS +
+                " SET " + KEY_BRANDS_NAME +
+                " = '" + newBrandName +  "'" +
+                " WHERE " + KEY_BRANDS_ID + " = '" + oldBrandID + "'";
+
+        db.execSQL(query);
+
+    }
+
+    public void updateInventoryItemRows(String oldName, String oldBrand, String newCalories,String newQuantity, String newPrice, String newMeasurement , String newMinQty) {
+
+        String itemID = getItemID(oldName, oldBrand);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_INVENTORY_ITEMS +
+                " SET " +
+                KEY_INVENTORY_ITEM_CALORIES + " = '" + newCalories + "'," +
+                KEY_INVENTORY_ITEM_QUANTITY + " = '" + newQuantity + "'," +
+                KEY_INVENTORY_ITEM_PRICE + " = '" + newPrice + "'," +
+                KEY_INVENTORY_ITEM_MEASUREMENT + " = '" + newMeasurement + "'," +
+                KEY_INVENTORY_ITEM_MINIMUM_QTY  + " = '" + newMinQty + "'" +
+
+                " WHERE " + KEY_INVENTORY_ITEM_ID + " = '" + itemID + "'";
+
+        db.execSQL(query);
+
+    }
+
+    public void updateInventoryItem(String oldName, String oldBrand, String newName, String newBrand) {
+
+        String itemID = getItemID(oldName, oldBrand);
+
+        updateItemName(newName, oldName,oldBrand);
+        updateBrandName(newBrand, oldBrand);
+
+    }
+
+
     /*******************************************************************************/
 
     /**
      * Delete from database
-     * @param id
      * @param itemName
+     * @param brandName
      */
-    public void deleteInventoryItem(int id, String itemName, String brandName){
+    public void deleteInventoryItem(String itemName, String brandName){
         SQLiteDatabase db = this.getWritableDatabase();
         String ItemID = getItemID(itemName,brandName);
 
+        String id = getInventoryItemID(itemName, brandName);
 
         String query = "DELETE FROM " + TABLE_INVENTORY + " WHERE "
                 + KEY_INVENTORY_ITEM_ID + " = '" + id + "'" +

@@ -4,16 +4,16 @@ import android.app.Application;
 
 public class MyApplication extends Application {
 
-    private String selectedInventoryItem;
     private String selectedItem;
-    private String selectedBrand;
+    private InventoryItem selectedInventoryItem;
+    private User currentUser;
 
-    public String getSelectedInventoryItem() {
+    public InventoryItem getSelectedInventoryItem() {
         return selectedInventoryItem;
     }
 
-    public void setSelectedInventoryItem(String someVariable) {
-        this.selectedInventoryItem = someVariable;
+    public void setSelectedInventoryItem( InventoryItem someInvItem) {
+        this.selectedInventoryItem = someInvItem;
     }
 
     public String getSelectedItem() {
@@ -22,6 +22,14 @@ public class MyApplication extends Application {
 
     public void setSelectedItem(String someVariable) {
         this.selectedItem = someVariable;
+    }
+
+    public User getSelectedUser() {
+        return currentUser;
+    }
+
+    public void setSelectedUser(User user){
+        currentUser = user;
     }
 
 

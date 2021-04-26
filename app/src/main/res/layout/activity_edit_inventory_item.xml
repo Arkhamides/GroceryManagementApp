@@ -143,25 +143,6 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:text="Expiry Date" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Select Date"
-            android:id="@+id/tvDate"
-            android:textSize="25sp"/>
-
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -169,31 +150,26 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_add"
+            android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_light"
-            android:text="@string/str_Add" />
+            android:text="SAVE" />
 
         <LinearLayout
             android:layout_width="15dp"
             android:layout_height="wrap_content">
 
         </LinearLayout>
+
         <Button
+            android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_ViewData"
-            android:text="@string/str_View"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/design_default_color_error"
+            android:text="Delete" />
 
     </LinearLayout>
-
-
-
-
-
 
 
 

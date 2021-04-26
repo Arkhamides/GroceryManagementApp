@@ -48,64 +48,65 @@ public class SignUp extends AppCompatActivity {
         button_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final String fullname, username, password, email;
-                fullname = String.valueOf(edTxt_fullname.getText());
-                username = String.valueOf(edTxt_username.getText());
-                password = String.valueOf(edTxt_password.getText());
-                email = String.valueOf(edTxt_email.getText());
-
-                if(!fullname.equals("") && !username.equals("") && !password.equals("") && !email.equals("") ) {
-
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            String[] field = new String[4];
-                            field[0] = "fullname";
-                            field[1] = "username";
-                            field[2] = "password";
-                            field[3] = "email";
-                            //Creating array for data
-                            String[] data = new String[4];
-                            data[0] = fullname;
-                            data[1] = username;
-                            data[2] = password;
-                            data[3] = email;
-                            PutData putData = new PutData("http://192.168.0.107/LoginRegister/signup.php", "POST", field, data);
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
-                                    progressBar.setVisibility(View.GONE);
-
-                                    String result = putData.getResult();
-                                    if(result.equals("Sign Up Success")) {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), Login.class);
-                                        startActivity(intent);
-                                        finish();
-
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        }
-                    });
-
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "All Fields are required", Toast.LENGTH_LONG).show();
-                }
-
+                REGISTER();
             }
         });
 
 
-
-
-
     }
+
+
+    public void REGISTER() {
+        final String fullname, username, password, email;
+        fullname = String.valueOf(edTxt_fullname.getText());
+        username = String.valueOf(edTxt_username.getText());
+        password = String.valueOf(edTxt_password.getText());
+        email = String.valueOf(edTxt_email.getText());
+
+        if(!fullname.equals("") && !username.equals("") && !password.equals("") && !email.equals("") ) {
+
+            progressBar.setVisibility(View.VISIBLE);
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    String[] field = new String[4];
+                    field[0] = "fullname";
+                    field[1] = "username";
+                    field[2] = "password";
+                    field[3] = "email";
+                    //Creating array for data
+                    String[] data = new String[4];
+                    data[0] = fullname;
+                    data[1] = username;
+                    data[2] = password;
+                    data[3] = email;
+                    PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/signup.php", "POST", field, data);
+                    if (putData.startPut()) {
+                        if (putData.onComplete()) {
+                            progressBar.setVisibility(View.GONE);
+
+                            String result = putData.getResult();
+                            if(result.equals("Sign Up Success")) {
+                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), Login.class);
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "All Fields are required", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

@@ -25,6 +25,9 @@
                 android:id="@+id/btn_inventory"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/design_default_color_secondary_variant"
                 android:text="Inventory" />
 
             <Button
@@ -32,6 +35,9 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/design_default_color_secondary_variant"
                 android:text="items" />
 
         </LinearLayout>
@@ -46,12 +52,18 @@
                 android:id="@+id/btn_brands"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/design_default_color_secondary_variant"
                 android:text="Brands" />
 
             <Button
                 android:id="@+id/btn_history"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/design_default_color_secondary_variant"
                 android:text="History" />
         </LinearLayout>
 
@@ -65,22 +77,32 @@
                 android:id="@+id/btn_groceryList"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
+                android:background="@color/design_default_color_secondary_variant"
                 android:text="Grocery List" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login" />
 
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign Up" />
-        
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="bottom"
+            android:gravity="bottom|right">
+
+            <Button
+                android:id="@+id/btn_Logout"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#B50505"
+                android:text="Logout" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 

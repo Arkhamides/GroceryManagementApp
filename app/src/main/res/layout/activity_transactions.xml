@@ -16,9 +16,9 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="@string/str_productName"
-            tools:text="Product Name" />
+            tools:text="Item Name" />
 
-        <EditText
+        <TextView
             android:id="@+id/i_txt_ProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:inputType="text"
             android:minWidth="200dp">
 
-        </EditText>
+        </TextView>
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +41,7 @@
             android:text="Brand Name"
             tools:text="Brand Name" />
 
-        <EditText
+        <TextView
             android:id="@+id/i_txt_BrandName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:inputType="text"
             android:minWidth="200dp">
 
-        </EditText>
+        </TextView>
     </LinearLayout>
 
     <LinearLayout
@@ -64,35 +64,14 @@
             android:layout_height="wrap_content"
             android:text="Price" />
 
-        <EditText
+        <TextView
             android:id="@+id/i_txt_Price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:minWidth="200dp">
 
-        </EditText>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:text="Calories" />
-
-        <EditText
-            android:id="@+id/i_txt_Calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:minWidth="200dp">
-
-        </EditText>
+        </TextView>
 
     </LinearLayout>
 
@@ -106,18 +85,56 @@
             android:layout_height="wrap_content"
             android:text="Quantity" />
 
-        <EditText
+        <TextView
             android:id="@+id/i_txt_Quantity"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minWidth="200dp"></EditText>
+            android:minWidth="200dp"></TextView>
 
 
-        <Spinner
-            android:id="@+id/spinner_measurement"
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="Subtotal" />
+
+        <TextView
+            android:id="@+id/i_txt_Subtotal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></Spinner>
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:minWidth="200dp">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="Calories" />
+
+        <TextView
+            android:id="@+id/i_txt_Calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:minWidth="200dp">
+
+        </TextView>
 
     </LinearLayout>
 
@@ -131,36 +148,58 @@
             android:layout_height="wrap_content"
             android:text="Min Quantity" />
 
-        <EditText
+        <TextView
             android:id="@+id/i_txt_MinQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:minWidth="200dp">
 
-        </EditText>
+        </TextView>
 
     </LinearLayout>
-
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:text="Expiry Date" />
+        <Button
+            android:id="@+id/btn_Out"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:text="OUT" />
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:hint="Select Date"
-            android:id="@+id/tvDate"
-            android:textSize="25sp"/>
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/EditTxt_number"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:inputType="number">
+
+            </EditText>
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_In"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:text="IN" />
 
     </LinearLayout>
+
 
 
     <LinearLayout
@@ -169,31 +208,27 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
-            android:text="@string/str_Add" />
+            android:id="@+id/btn_edit"
+            android:text="EDIT"
+            android:background="@color/colorAccent"
+            />
 
         <LinearLayout
             android:layout_width="15dp"
             android:layout_height="wrap_content">
 
         </LinearLayout>
+
         <Button
+            android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_ViewData"
-            android:text="@string/str_View"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/design_default_color_error"
+            android:text="Delete" />
 
     </LinearLayout>
-
-
-
-
-
 
 
 

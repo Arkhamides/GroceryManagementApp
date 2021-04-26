@@ -1,7 +1,10 @@
 package com.joearchondis.grocerymanagement1;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +27,7 @@ public class ListHistoryActivity extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
     ListView mListView;
+    User currentUser;
 
 
     @Override
@@ -29,10 +35,13 @@ public class ListHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_layout);
 
+        currentUser = ((MyApplication) getApplication()).getSelectedUser();
+
         mListView =(ListView)findViewById(R.id.ListView_History);
         mDatabaseHelper = new DatabaseHelper(this);
 
-        populateListView();
+        getHistoryList();
+
 
     }
 
@@ -73,5 +82,79 @@ public class ListHistoryActivity extends AppCompatActivity {
         });
 
     }
-    
+
+    private void getHistoryList() {
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                String[] field = new String[1];
+                field[0] = "userID";
+
+                String[] data = new String[1];
+                data[0] = currentUser.getID();
+
+
+                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getHistoryItems.php", "POST", field, data);
+                if (putData.startPut()) {
+                    if (putData.onComplete()) {
+
+                        String result = putData.getResult();
+
+                        if(result.equals("-1")) {
+                            Toast.makeText(getApplicationContext(), "No items found", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            String results[] = result.split(",", -2);
+
+                            List<HashMap<String,String>> aList = new ArrayList<HashMap<String, String>>();
+                            int i = 0;
+                            String name,brand, quantity, date;
+
+
+                            while(results.length > i) {
+                                name = results[i];
+                                i++;
+                                brand = results[i];
+                                i++;
+                                quantity = results[i];
+                                i++;
+                                date = results[i];
+                                i++;
+
+
+                                HashMap<String, String> hm = new HashMap<String,String>();
+                                hm.put("ListName", name + " " + brand);
+                                hm.put("quantity", "quantity: " + quantity);
+                                hm.put("Date", "Date: " + date);
+                                aList.add(hm);
+                            }
+
+                            String[] from = {
+                                    "ListName","quantity", "Date"
+                            };
+                            int[] to = {
+                                    R.id.TextView2,   R.id.TextView3, R.id.TextView1
+                            };
+
+
+                            SimpleAdapter simpleAdapter = new SimpleAdapter(getApplicationContext(), aList, R.layout.adapter_view_layout,from,to);
+                            mListView.setAdapter(simpleAdapter);
+
+
+
+                        }
+
+
+                    }
+                }
+            }
+        });
+
+    }
+
+
+
 }
