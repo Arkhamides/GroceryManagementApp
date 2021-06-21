@@ -97,7 +97,8 @@ public class ListHistoryActivity extends AppCompatActivity {
                 data[0] = currentUser.getID();
 
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getHistoryItems.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getHistoryItems.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 
@@ -136,7 +137,7 @@ public class ListHistoryActivity extends AppCompatActivity {
                                     "ListName","quantity", "Date"
                             };
                             int[] to = {
-                                    R.id.TextView2,   R.id.TextView3, R.id.TextView1
+                                    R.id.TextView2,  R.id.TextView3, R.id.TextView1
                             };
 
 

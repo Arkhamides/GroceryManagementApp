@@ -12,14 +12,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#B1C1C0"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="50dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_alignParentTop="true">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_inventory"
@@ -27,7 +29,8 @@
                 android:layout_height="110dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/design_default_color_secondary_variant"
+                android:background="@drawable/menu_buttons"
+                android:textColor="#FFF"
                 android:text="Inventory" />
 
             <Button
@@ -37,7 +40,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-                android:background="@color/design_default_color_secondary_variant"
+                android:background="@drawable/menu_buttons"
+                android:textColor="#FFF"
                 android:text="items" />
 
         </LinearLayout>
@@ -45,6 +49,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="120dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -54,8 +59,9 @@
                 android:layout_height="110dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/design_default_color_secondary_variant"
-                android:text="Brands" />
+                android:background="@drawable/menu_buttons"
+                android:text="Brands"
+                android:textColor="#FFF" />
 
             <Button
                 android:id="@+id/btn_history"
@@ -63,13 +69,15 @@
                 android:layout_height="110dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-                android:background="@color/design_default_color_secondary_variant"
-                android:text="History" />
+                android:background="@drawable/menu_buttons"
+                android:text="History"
+                android:textColor="#FFF" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="120dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -77,11 +85,11 @@
                 android:id="@+id/btn_groceryList"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:background="@color/design_default_color_secondary_variant"
-                android:text="Grocery List" />
+                android:background="@drawable/menu_buttons"
+                android:text="Grocery List"
+                android:textColor="#FFF" />
 
         </LinearLayout>
-
 
 
         <LinearLayout

@@ -61,7 +61,10 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteInvItem();
+                DeleteInvItemServer();
+                Intent intent = new Intent(TransactionActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -168,19 +171,21 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
                 data[1] = SelectedInventoryItem.brand;
                 data[2] = userID;
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getInventoryItem.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getInventoryItem.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 
                         String result = putData.getResult();
 
                         if(result.equals("-1")) {
-                            Toast.makeText(getApplicationContext(), "No items found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                         }else {
 
                             String results[] = result.split(",", -2);
-                            SelectedInventoryItem = new InventoryItem(results[0],results[1],results[2],results[3],results[4],results[5],results[6]);
-
+                            SelectedInventoryItem = new InventoryItem(results[0],results[1],results[2],results[3],results[4],results[5],results[6], results[7]);
+                            ((MyApplication) getApplication()).setSelectedInventoryItem(SelectedInventoryItem);
                         }
 
                     }
@@ -207,6 +212,8 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
                 @Override
                 public void run() {
 
+                    String str_transaction = String.valueOf(TransactionNB);
+
                     String[] field = new String[4];
                     field[0] = "itemName";
                     field[1] = "brandName";
@@ -217,7 +224,7 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
                     data[0] = SelectedInventoryItem.name;
                     data[1] = SelectedInventoryItem.brand;
                     data[2] = userID;
-                    data[3] = String.valueOf(TransactionNB);
+                    data[3] = str_transaction;
 
                     PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/AddTransaction.php", "POST", field, data);
                     if (putData.startPut()) {
@@ -239,6 +246,7 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
     public void addOUTTransaction() {
         TransactionNB = Integer.parseInt(ed_transactionNB.getText().toString());
         userID = ((MyApplication) getApplication()).getSelectedUser().UserID;
+
 
         if(TransactionNB < 0){
             Toast.makeText(this, "Number must be positive", Toast.LENGTH_SHORT).show();
@@ -304,8 +312,6 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
 
     public void updateQuantity() {
 
-        TransactionNB = -TransactionNB;
-
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
@@ -337,6 +343,46 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
 
 
     }
+
+
+    public void DeleteInvItemServer() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                String name = SelectedInventoryItem.name;
+                String brand = SelectedInventoryItem.brand;
+                String userID = ((MyApplication) getApplication()).getSelectedUser().UserID;
+
+                String[] field = new String[3];
+                field[0] = "itemName";
+                field[1] = "brandName";
+                field[2] = "userID";
+                //Creating array for data
+                String[] data = new String[3];
+                data[0] = name;
+                data[1] = brand;
+                data[2] = userID;
+
+                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/DeleteInvItem.php", "POST", field, data);
+                if (putData.startPut()) {
+                    if (putData.onComplete()) {
+
+                        String result = putData.getResult();
+
+                    }
+                }
+
+
+            }
+
+        });
+
+    }
+
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

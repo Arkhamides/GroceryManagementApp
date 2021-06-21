@@ -7,6 +7,7 @@ public class MyApplication extends Application {
     private String selectedItem;
     private InventoryItem selectedInventoryItem;
     private User currentUser;
+    private String serverIP = "192.168.0.100";
 
     public InventoryItem getSelectedInventoryItem() {
         return selectedInventoryItem;
@@ -30,6 +31,10 @@ public class MyApplication extends Application {
 
     public void setSelectedUser(User user){
         currentUser = user;
+    }
+
+    public String getIP(){
+        return serverIP;
     }
 
 

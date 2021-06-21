@@ -69,7 +69,8 @@ public class ListGroceryList extends AppCompatActivity implements AdapterView.On
                 data[0] = currentUser.getID();
 
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getGroceryList.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getGroceryList.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 

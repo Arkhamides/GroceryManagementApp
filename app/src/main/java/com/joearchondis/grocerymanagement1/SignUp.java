@@ -83,7 +83,9 @@ public class SignUp extends AppCompatActivity {
                     data[1] = username;
                     data[2] = password;
                     data[3] = email;
-                    PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/signup.php", "POST", field, data);
+
+                    String ip = ((MyApplication) getApplication()).getIP();
+                    PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/signup.php", "POST", field, data);
                     if (putData.startPut()) {
                         if (putData.onComplete()) {
                             progressBar.setVisibility(View.GONE);

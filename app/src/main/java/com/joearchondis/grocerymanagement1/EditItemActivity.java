@@ -1,7 +1,10 @@
 package com.joearchondis.grocerymanagement1;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,14 +12,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class EditItemActivity  extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -24,7 +30,11 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
     private static final String TAG = "EditItemActivity";
     DatabaseHelper mDatabaseHelper;
 
+    String str_selectedDate;
+    Calendar selectedDate;
+
     String str_measurement = "Unit(s)";
+    String userID;
 
     String inventoryName = "Default";
 
@@ -35,6 +45,8 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
     Button btnSave, btnDelete;
 
     Spinner spinner_measurements;
+    TextView mDisplayDate;
+    DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
     @Override
@@ -50,7 +62,30 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
         spinner_measurements.setOnItemSelectedListener(this);
 
         findViews();
+        getInventoryItemServer();
         setViews();
+
+
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SelectCalendar();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                month = month+1;
+                str_selectedDate = year + "/" + dayOfMonth + "/" + month;
+                mDisplayDate.setText(str_selectedDate);
+
+                selectedDate = Calendar.getInstance();
+                selectedDate.set(year, month, dayOfMonth, 0, 0);
+
+            }
+        };
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +98,10 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteInvItem();
+                DeleteInvItemServer();
+                Intent intent = new Intent(EditItemActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -81,6 +119,7 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
         btnSave = findViewById(R.id.btn_save);
         btnDelete = findViewById(R.id.btn_delete);
 
+        mDisplayDate = (TextView) findViewById(R.id.tvDate);
 
     }
 
@@ -95,7 +134,10 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
         ed_txt_Calories.setText(SelectedInventoryItem.calories);
         ed_txt_min_quantity.setText(SelectedInventoryItem.min_quantity);
 
-        spinner_measurements.setSelection(Integer.parseInt(SelectedInventoryItem.measurementLabel));
+        mDisplayDate.setText(SelectedInventoryItem.exp_date);
+
+
+        spinner_measurements.setSelection(Integer.parseInt(SelectedInventoryItem.measurementLabel)-1);
 
     }
 
@@ -176,7 +218,8 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
                 data[8] = newMeasurement;
                 data[9] = newMinQty;
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/EditInventoryItem.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/EditInventoryItem.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 
@@ -188,11 +231,162 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
 
                     }
                 }
+
+                if(str_selectedDate != "" && str_selectedDate!=null) {
+                    UpdateExpDate(userID, newName, newBrand);
+                }
+
+
             }
+
         });
 
     }
 
+    public void SelectCalendar() {
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                EditItemActivity.this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                mDateSetListener,
+                year, month, day);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    public void getInventoryItemServer() {
+
+        SelectedInventoryItem = ((MyApplication) getApplication()).getSelectedInventoryItem();
+        userID = ((MyApplication) getApplication()).getSelectedUser().UserID;
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                String[] field = new String[3];
+                field[0] = "itemName";
+                field[1] = "brandName";
+                field[2] = "userID";
+                //Creating array for data
+                String[] data = new String[3];
+                data[0] = SelectedInventoryItem.name;
+                data[1] = SelectedInventoryItem.brand;
+                data[2] = userID;
+
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getInventoryItem.php", "POST", field, data);
+                if (putData.startPut()) {
+                    if (putData.onComplete()) {
+
+                        String result = putData.getResult();
+
+                        if(result.equals("-1")) {
+                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            String results[] = result.split(",", -2);
+                            SelectedInventoryItem = new InventoryItem(results[0],results[1],results[2],results[3],results[4],results[5],results[6], results[7]);
+                            ((MyApplication) getApplication()).setSelectedInventoryItem(SelectedInventoryItem);
+                            mDisplayDate.setText(SelectedInventoryItem.exp_date);
+
+                        }
+
+                    }
+                }
+            }
+        });
+
+
+
+    }
+
+
+    public void DeleteInvItemServer() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                String name = SelectedInventoryItem.name;
+                String brand = SelectedInventoryItem.brand;
+                String userID = ((MyApplication) getApplication()).getSelectedUser().UserID;
+
+                String[] field = new String[3];
+                field[0] = "itemName";
+                field[1] = "brandName";
+                field[2] = "userID";
+                //Creating array for data
+                String[] data = new String[3];
+                data[0] = name;
+                data[1] = brand;
+                data[2] = userID;
+
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/DeleteInvItem.php", "POST", field, data);
+                if (putData.startPut()) {
+                    if (putData.onComplete()) {
+
+                        String result = putData.getResult();
+
+                    }
+                }
+
+
+            }
+
+        });
+
+    }
+
+
+    public void UpdateExpDate(String userID, String itemName, String brandName) {
+        if(str_selectedDate == "") {
+            return;
+        }
+
+        int year = selectedDate.get(Calendar.YEAR);
+        int month = selectedDate.get(Calendar.MONTH);
+        int dayOfMonth = selectedDate.get(Calendar.DAY_OF_MONTH);
+
+
+        String[] field = new String[6];
+        field[0] = "year";
+        field[1] = "month";
+        field[2] = "dayOfMonth";
+        field[3] = "itemName";
+        field[4] = "brandName";
+        field[5] = "userID";
+
+        //Creating array for data
+        String[] data = new String[6];
+        data[0] = String.valueOf(year);
+        data[1] = String.valueOf(month);
+        data[2] = String.valueOf(dayOfMonth);
+        data[3] = itemName;
+        data[4] = brandName;
+        data[5] = userID;
+
+        String ip = ((MyApplication) getApplication()).getIP();
+        PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/UpdateExpDate.php", "POST", field, data);
+
+        if (putData.startPut()) {
+            if (putData.onComplete()) {
+
+                String result = putData.getResult();
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+
+    }
 
 
     @Override

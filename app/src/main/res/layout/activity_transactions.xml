@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -15,6 +15,9 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
             android:text="@string/str_productName"
             tools:text="Item Name" />
 
@@ -38,6 +41,10 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
+
             android:text="Brand Name"
             tools:text="Brand Name" />
 
@@ -62,6 +69,10 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
             android:text="Price" />
 
         <TextView
@@ -83,6 +94,10 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
             android:text="Quantity" />
 
         <TextView
@@ -91,7 +106,6 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:minWidth="200dp"></TextView>
-
 
 
     </LinearLayout>
@@ -104,6 +118,10 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
             android:text="Subtotal" />
 
         <TextView
@@ -125,6 +143,10 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
             android:text="Calories" />
 
         <TextView
@@ -146,6 +168,9 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:translationX="10dp"
             android:text="Min Quantity" />
 
         <TextView
@@ -171,17 +196,18 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/colorAccent"
+            android:layout_gravity="left"
             android:text="OUT" />
 
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <EditText
                 android:id="@+id/EditTxt_number"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:inputType="number">
 
@@ -195,11 +221,13 @@
             android:id="@+id/btn_In"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_gravity="right"
             android:background="@color/colorAccent"
+
             android:text="IN" />
 
-    </LinearLayout>
 
+    </LinearLayout>
 
 
     <LinearLayout
@@ -208,12 +236,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btn_edit"
-            android:text="EDIT"
-            android:background="@color/colorAccent"
-            />
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_corners"
+            android:text="Edit"
+            android:textColor="#FFF" />
 
         <LinearLayout
             android:layout_width="15dp"
@@ -223,13 +251,14 @@
 
         <Button
             android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/design_default_color_error"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+
+            android:background="@drawable/rounded_corners_red"
+            android:textColor="#FFF"
             android:text="Delete" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

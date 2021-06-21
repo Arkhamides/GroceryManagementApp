@@ -61,12 +61,12 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
         btn_add_inventory_item_activity = findViewById(R.id.btn_add_inventory_item_activity);
         btn_search = findViewById(R.id.btn_search);
 
-
         btn_add_inventory_item_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListInventoryItemsActivity.this, AddInventoryItemActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -140,8 +140,8 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
                 String[] data = new String[1];
                 data[0] = currentUser.getID();
 
-
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getInventoryItems.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getInventoryItems.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 
@@ -203,6 +203,7 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
 
                                     Intent intent = new Intent(ListInventoryItemsActivity.this, TransactionActivity.class);
                                     startActivity(intent);
+                                    finish();
 
                                 }
                             });
@@ -272,7 +273,8 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
                 data[1] = ed_search.getText().toString();
                 data[2] = str_filter;
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getInventoryItemsSearch.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getInventoryItemsSearch.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 
@@ -350,11 +352,6 @@ public class ListInventoryItemsActivity extends AppCompatActivity implements Ada
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         str_filter = parent.getItemAtPosition(position).toString();
-
-
-
-
-
 
     }
 

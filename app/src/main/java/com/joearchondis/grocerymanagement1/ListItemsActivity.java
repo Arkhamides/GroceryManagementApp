@@ -93,8 +93,8 @@ public class ListItemsActivity extends AppCompatActivity {
                     String[] field = new String[0];
                     String[] data = new String[0];
 
-
-                    PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/getItems.php", "POST", field, data);
+                    String ip = ((MyApplication) getApplication()).getIP();
+                    PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/getItems.php", "POST", field, data);
                     if (putData.startPut()) {
                         if (putData.onComplete()) {
 

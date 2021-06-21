@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:background="#DEEAE4"
+    android:gravity="center"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-50dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="@string/str_productName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:text="Product Name" />
 
         <EditText
@@ -23,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:background="#FFF"
             android:ems="10"
             android:inputType="text"
             android:minWidth="200dp">
@@ -33,12 +38,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Brand Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:text="Brand Name" />
 
         <EditText
@@ -49,6 +57,7 @@
             android:ems="10"
             android:hint=""
             android:inputType="text"
+            android:background="#FFF"
             android:minWidth="200dp">
 
         </EditText>
@@ -57,18 +66,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="Price" />
+            android:text="Price"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
             android:id="@+id/i_txt_Price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:background="#FFF"
             android:minWidth="200dp">
 
         </EditText>
@@ -78,18 +91,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="Calories" />
+            android:text="Calories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
             android:id="@+id/i_txt_Calories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:background="#FFF"
             android:minWidth="200dp">
 
         </EditText>
@@ -99,19 +116,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="Quantity" />
+            android:text="Quantity"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
             android:id="@+id/i_txt_Quantity"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minWidth="200dp"></EditText>
+            android:background="#FFF"
+            android:minWidth="200dp">
+
+        </EditText>
 
 
         <Spinner
@@ -124,18 +147,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="Min Quantity" />
+            android:text="Min Quantity"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
             android:id="@+id/i_txt_MinQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:background="#FFF"
             android:minWidth="200dp">
 
         </EditText>
@@ -146,19 +173,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="Expiry Date" />
+            android:text="Expiry Date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:hint="Select Date"
-            android:id="@+id/tvDate"
-            android:textSize="25sp"/>
+            android:background="#FFF"
+            android:textSize="22sp" />
 
     </LinearLayout>
 
@@ -166,13 +199,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
+            android:background="@drawable/rounded_corners_green"
             android:text="@string/str_Add" />
 
         <LinearLayout
@@ -180,21 +214,16 @@
             android:layout_height="wrap_content">
 
         </LinearLayout>
+
         <Button
+            android:id="@+id/btn_ViewData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_ViewData"
+            android:background="@drawable/rounded_corners"
             android:text="@string/str_View"
-            android:background="@color/colorAccent"
-            />
+            android:textColor="#FFF" />
 
     </LinearLayout>
-
-
-
-
-
-
 
 
 </LinearLayout>

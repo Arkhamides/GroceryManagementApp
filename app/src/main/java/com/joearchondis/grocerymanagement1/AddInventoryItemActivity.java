@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +35,8 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
     String measurement_index = "1";
     String str_selectedDate;
     Calendar selectedDate;
+
+    String Name, Brand, Quantity;
 
 
     EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories, ed_txt_min_quantity;
@@ -255,7 +259,8 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         data[4] = brandName;
         data[5] = userID;
 
-        PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/UpdateExpDate.php", "POST", field, data);
+        String ip = ((MyApplication) getApplication()).getIP();
+        PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/UpdateExpDate.php", "POST", field, data);
 
         if (putData.startPut()) {
             if (putData.onComplete()) {
@@ -269,12 +274,47 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
 
     }
 
+    public void addINTransaction() {
 
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    String[] field = new String[4];
+                    field[0] = "itemName";
+                    field[1] = "brandName";
+                    field[2] = "userID";
+                    field[3] = "quantity";
+                    //Creating array for data
+                    String[] data = new String[4];
+                    data[0] = Name;
+                    data[1] = Brand;
+                    data[2] = currentUser.getID();
+                    data[3] = Quantity;
+
+                    String ip = ((MyApplication) getApplication()).getIP();
+                    PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/AddTransaction.php", "POST", field, data);
+                    if (putData.startPut()) {
+                        if (putData.onComplete()) {
+
+                            String result = putData.getResult();
+                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                }
+            });
+
+
+
+    }
 
 
     public void addServer() {
 
-        String itemName, brandName, price, calories, quantity, min_quantity;
+        final String itemName, brandName, price, calories, quantity, min_quantity;
 
         itemName = ed_txt_ProductName.getText().toString();
         brandName = ed_txt_BrandName.getText().toString();
@@ -282,6 +322,9 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         calories = ed_txt_Calories.getText().toString();
         quantity = ed_txt_Quantity.getText().toString();
         min_quantity = ed_txt_min_quantity.getText().toString();
+        Name = itemName;
+        Brand = brandName;
+        Quantity = quantity;
 
         String[] field = new String[8];
         field[0] = "itemName";
@@ -304,8 +347,8 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         data[6] = min_quantity;
         data[7] = currentUser.UserID;
 
-
-        PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/AddInventoryItem.php", "POST", field, data);
+        String ip = ((MyApplication) getApplication()).getIP();
+        PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/AddInventoryItem.php", "POST", field, data);
         if (putData.startPut()) {
             if (putData.onComplete()) {
 
@@ -313,6 +356,7 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
 
                 if(result.equals("1true")) {
                     Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                    addINTransaction();
                     refresh_data_Table();
                 } else {
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
@@ -321,7 +365,9 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
             }
         }
 
-        UpdateExpDate(currentUser.UserID, itemName, brandName);
+        if(str_selectedDate != "" && str_selectedDate!=null) {
+            UpdateExpDate(currentUser.UserID, itemName, brandName);
+        }
 
 
 
