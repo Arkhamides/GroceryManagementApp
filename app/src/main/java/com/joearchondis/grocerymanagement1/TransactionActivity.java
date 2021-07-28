@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -329,7 +328,8 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
                 data[2] = userID;
                 data[3] = str_newQuantity;
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/UpdateInventoryItemQuantity.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/UpdateInventoryItemQuantity.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 
@@ -365,15 +365,13 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
                 data[1] = brand;
                 data[2] = userID;
 
-                PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/DeleteInvItem.php", "POST", field, data);
+                String ip = ((MyApplication) getApplication()).getIP();
+                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/DeleteInvItem.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
-
                         String result = putData.getResult();
-
                     }
                 }
-
 
             }
 
