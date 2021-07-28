@@ -6,6 +6,7 @@ App Overview:
 SETUP:
 go to : ..\grocerymanagement1\MyApplication.java and set the serverIP. 
 In my case, I turned my computer into a server using XAMPP, went to the command promp, ran "ipconfig" and set up using the IPv4 Address.
+Finally, you need the server side code, using PHP. I have It all on https://github.com/Arkhamides/GroceryManagementAppPHP
 
 
 
