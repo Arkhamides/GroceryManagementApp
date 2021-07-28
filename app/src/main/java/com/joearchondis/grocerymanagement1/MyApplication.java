@@ -7,7 +7,7 @@ public class MyApplication extends Application {
     private String selectedItem;
     private InventoryItem selectedInventoryItem;
     private User currentUser;
-    private String serverIP = "192.168.0.100";
+    private String serverIP = "192.168.0.103";
 
     public InventoryItem getSelectedInventoryItem() {
         return selectedInventoryItem;

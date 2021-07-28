@@ -32,6 +32,7 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
 
     String str_selectedDate;
     Calendar selectedDate;
+    String serverIP = ((MyApplication) getApplication()).getIP();
 
     String str_measurement = "Unit(s)";
     String userID;
@@ -218,8 +219,8 @@ public class EditItemActivity  extends AppCompatActivity implements AdapterView.
                 data[8] = newMeasurement;
                 data[9] = newMinQty;
 
-                String ip = ((MyApplication) getApplication()).getIP();
-                PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/EditInventoryItem.php", "POST", field, data);
+
+                PutData putData = new PutData("http://"+ serverIP +"/GroceryManagementApp/EditInventoryItem.php", "POST", field, data);
                 if (putData.startPut()) {
                     if (putData.onComplete()) {
 

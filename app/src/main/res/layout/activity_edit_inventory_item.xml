@@ -16,7 +16,6 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:text="@string/str_productName"
             tools:text="Product Name" />
 
         <EditText

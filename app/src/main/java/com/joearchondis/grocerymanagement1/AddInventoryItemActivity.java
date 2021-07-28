@@ -38,6 +38,7 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
 
     String Name, Brand, Quantity;
 
+    String serverIP = ((MyApplication) getApplication()).getIP();
 
     EditText ed_txt_ProductName,ed_txt_Price,ed_txt_Quantity,ed_txt_BrandName,ed_txt_Calories, ed_txt_min_quantity;
     Button btnAdd, btnView;
@@ -89,7 +90,6 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
             @Override
             public void onClick(View v) {
                 addServer();
-                //button_add();
             }
         });
 
@@ -347,8 +347,8 @@ public class AddInventoryItemActivity extends AppCompatActivity implements Adapt
         data[6] = min_quantity;
         data[7] = currentUser.UserID;
 
-        String ip = ((MyApplication) getApplication()).getIP();
-        PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/AddInventoryItem.php", "POST", field, data);
+
+        PutData putData = new PutData("http://"+ serverIP +"/GroceryManagementApp/AddInventoryItem.php", "POST", field, data);
         if (putData.startPut()) {
             if (putData.onComplete()) {
 

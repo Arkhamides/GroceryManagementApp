@@ -47,7 +47,6 @@ public class ListGroceryList extends AppCompatActivity implements AdapterView.On
 
         mDatabaseHelper = new DatabaseHelper(this);
 
-
         getInventoryListServer();
 
 

@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -226,7 +225,8 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
                     data[2] = userID;
                     data[3] = str_transaction;
 
-                    PutData putData = new PutData("http://192.168.0.106/GroceryManagementApp/AddTransaction.php", "POST", field, data);
+                    String ip = ((MyApplication) getApplication()).getIP();
+                    PutData putData = new PutData("http://"+ip+"/GroceryManagementApp/AddTransaction.php", "POST", field, data);
                     if (putData.startPut()) {
                         if (putData.onComplete()) {
 
