@@ -191,8 +191,6 @@ public class TransactionActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-
-
     }
 
     public void addINTransaction() {

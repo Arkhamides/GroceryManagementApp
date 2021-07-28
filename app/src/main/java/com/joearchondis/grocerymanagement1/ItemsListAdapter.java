@@ -44,6 +44,7 @@ public class ItemsListAdapter extends ArrayAdapter<Item> {
         tvName.setText(name);
         tvBrand.setText(brand);
 
+
         return convertView;
     }
 }
