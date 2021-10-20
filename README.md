@@ -13,4 +13,5 @@ In my case, I have put them on C:\xampp\htdocs\GroceryManagementApp.
 If you want to rename your folder and/or change directories, you need to rename the directory invokation inside the java files, where I call out the php scripts.
 
 If you have any questions feel free to contact me on joearchondis@gmail.com
+For a more in depth overview of my App, visit my website: https://joe-archondis.web.app/ProjectGroceryManagement
 
